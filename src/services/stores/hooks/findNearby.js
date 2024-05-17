@@ -1,8 +1,7 @@
 'use strict';
 module.exports = findNearby;
 
-const radians = require('degrees-radians');
-const degress = require('radians-degrees');
+const {radians, degrees} = require('../../../util');
 
 const earthRadius = 6371000; // m
 
@@ -58,8 +57,8 @@ function calcDerivedPosition (lat, lng, range, bearing) {
   let destLng = ((lngA + destDLng + Math.PI) % (Math.PI * 2)) - Math.PI;
 
   return {
-    lat: degress(destLat),
-    lng: degress(destLng)
+    lat: degrees(destLat),
+    lng: degrees(destLng)
   };
 }
 
@@ -73,5 +72,5 @@ function calcDerivedLatitude (lat, range, bearing) {
     Math.cos(latA) * Math.sin(angularDistance) * Math.cos(trueCourse)
   );
 
-  return degress(destLat);
+  return degrees(destLat);
 }

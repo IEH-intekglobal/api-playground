@@ -1,6 +1,6 @@
 # Best Buy API Playground
 
-[![travis][travis-image]][travis-url]
+<!-- [![travis][travis-image]][travis-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![semistandard][semistandard-image]][semistandard-url]
 
@@ -9,7 +9,7 @@
 [coveralls-image]: https://coveralls.io/repos/github/BestBuy/api-playground/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/BestBuy/api-playground?branch=master
 [semistandard-image]: https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square
-[semistandard-url]: http://npm.im/semistandard
+[semistandard-url]: http://npm.im/semistandard -->
 
 ### What the API Playground Is
 

@@ -1,7 +1,6 @@
 'use strict';
 
 const assert = require('assert');
-const request = require('request');
 const app = require('../src/app');
 
 describe('Feathers application tests', function () {
@@ -14,38 +13,30 @@ describe('Feathers application tests', function () {
     this.server.close(done);
   });
 
-  it('starts and shows the index page', function (done) {
-    request('http://localhost:3030', function (err, res, body) {
-      assert.ok(body.indexOf('<title>') !== -1);
-      done(err);
-    });
+  it('starts and shows the index page', async function () {
+    const res = await fetch('http://localhost:3030')
+    const body = await res.text();
+    assert.ok((body.indexOf('<title>') !== -1));
   });
 
   describe('404', function () {
-    it('shows a 404 HTML page', function (done) {
-      request({
-        url: 'http://localhost:3030/path/to/nowhere',
-        headers: {
-          'Accept': 'text/html'
-        }
-      }, function (err, res, body) {
-        assert.equal(res.statusCode, 404);
-        assert.ok(body.indexOf('<html>') !== -1);
-        done(err);
+    it('shows a 404 HTML page', async function () {
+      const res = await fetch('http://localhost:3030/path/to/nowhere', {
+        headers: { 'Accept': 'text/html' }
       });
+      assert.equal(res.statusCode, 404);
+
+      const body = await res.text();
+      assert.ok(body.indexOf('<html>') !== -1);
     });
 
-    it('shows a 404 JSON error without stack trace', function (done) {
-      request({
-        url: 'http://localhost:3030/path/to/nowhere',
-        json: true
-      }, function (err, res, body) {
-        assert.equal(res.statusCode, 404);
-        assert.equal(body.code, 404);
-        assert.equal(body.message, 'Page not found');
-        assert.equal(body.name, 'NotFound');
-        done(err);
-      });
+    it('shows a 404 JSON error without stack trace', async function () {
+      const res = await fetch('http://localhost:3030/path/to/nowhere');
+      const body = await res.json();
+      assert.equal(res.statusCode, 404);
+      assert.equal(body.code, 404);
+      assert.equal(body.message, 'Page not found');
+      assert.equal(body.name, 'NotFound');     
     });
   });
 });

@@ -1,11 +1,14 @@
 {
   "name": "api-playground",
   "description": "Best Buy API Playground",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "homepage": "",
   "main": "src/",
   "keywords": [
-    "feathers"
+    "feathersjs",
+    "API",
+    "REST",
+    "bestbuy"
   ],
   "license": "MIT",
   "private": true,
@@ -24,39 +27,34 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "ajv": "^4.8.2",
-    "body-parser": "^1.15.2",
-    "compression": "^1.6.2",
-    "cors": "^2.7.1",
-    "degrees-radians": "^1.0.3",
-    "feathers": "^2.0.1",
-    "feathers-configuration": "^0.2.3",
-    "feathers-errors": "^2.4.0",
+    "ajv": "^8.13.0",
+    "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "@feathersjs/feathers": "^5.0.25",
+    "@feathersjs/configuration": "^5.0.25",
+    "@feathersjs/errors": "^5.0.25",
     "feathers-hooks": "^1.5.4",
     "feathers-rest": "^1.4.3",
     "feathers-sequelize": "^1.3.3",
     "feathers-socketio": "^1.4.1",
-    "marked": "^0.3.6",
-    "passport": "^0.3.2",
-    "radians-degrees": "^1.0.0",
-    "sequelize": "^3.24.8",
-    "serve-favicon": "^2.3.0",
-    "sqlite3": "^4.0.3",
-    "superagent": "^2.3.0",
-    "swagger-ui": "^2.2.6",
-    "swagger-ui-express": "^1.0.1",
-    "winston": "^2.2.0"
+    "marked": "^12.0.2",
+    "passport": "^0.7.0",
+    "sequelize": "^6.37.3",
+    "serve-favicon": "^2.5.0",
+    "sqlite3": "^5.1.7",
+    "superagent": "^9.0.2",
+    "swagger-ui": "^5.17.10",
+    "swagger-ui-express": "^5.0.0",
+    "winston": "^3.13.0"
   },
   "devDependencies": {
-    "coveralls": "^2.11.15",
-    "cpy-cli": "^1.0.1",
-    "cross-env": "^3.1.3",
-    "mocha": "^2.5.3",
-    "nodemon": "^1.11.0",
-    "nyc": "^9.0.1",
-    "request": "^2.73.0",
-    "semistandard": "^9.2.1",
-    "supertest": "^2.0.1"
+    "cross-env": "^7.0.3",
+    "mocha": "^10.4.0",
+    "nodemon": "^3.1.0",
+    "nyc": "^15.1.0",
+    "semistandard": "^17.0.0",
+    "supertest": "^7.0.0"
   },
   "semistandard": {
     "env": [
