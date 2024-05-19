@@ -1,8 +1,8 @@
 'use strict';
 
-const errors = require('feathers-errors');
+import { MethodNotAllowed } from '@feathersjs/errors';
 
-exports.allowNull = function (options) {
+export const allowNull = function (options) {
   // convert all strings that are "null" to null
   return function (hook) {
     var q = hook.params.query;
@@ -19,7 +19,7 @@ exports.allowNull = function (options) {
   };
 };
 
-exports.wildcardsInLike = function (options) {
+export const wildcardsInLike = function (options) {
   // convert all * in like/notLike to %
   return function (hook) {
     var q = hook.params.query;
@@ -33,9 +33,9 @@ exports.wildcardsInLike = function (options) {
   };
 };
 
-exports.errorIfReadonly = function (hook, next) {
+export const errorIfReadonly = function (hook, next) {
   if (hook.app.get('readonly')) {
-    return next(new errors.MethodNotAllowed('This HTTP method is not allowed when application is in read-only mode.'));
+    return next(new MethodNotAllowed('This HTTP method is not allowed when application is in read-only mode.'));
   }
   return next();
 };

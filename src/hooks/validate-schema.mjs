@@ -1,9 +1,9 @@
 'use strict';
 
-const Ajv = require('ajv');
-const errors = require('feathers-errors');
+import Ajv from 'ajv';
+import { BadRequest } from '@feathersjs/errors';
 
-function formatErrorMessage (err) {
+function formatErrorMessage(err) {
   if (err.dataPath) {
     return `'${err.dataPath.substring(1)}' ${err.message}`;
   } else {
@@ -16,13 +16,13 @@ function formatErrorMessage (err) {
   }
 }
 
-module.exports = function (schema) {
-  return function validateSchema (hook) {
-    var validator = new Ajv({allErrors: true});
+export default function (schema) {
+  return function validateSchema(hook) {
+    var validator = new Ajv({ allErrors: true });
     var isValid = validator.validate(schema, hook.data);
     if (!isValid) {
       var errorMessages = validator.errors.map(formatErrorMessage);
-      var validationErrors = new errors.BadRequest('Invalid Parameters', { errors: errorMessages });
+      var validationErrors = new BadRequest('Invalid Parameters', { errors: errorMessages });
       throw validationErrors;
     }
   };

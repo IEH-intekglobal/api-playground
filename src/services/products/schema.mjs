@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   'title': 'Product Schema',
   '$schema': 'http://json-schema.org/draft-04/schema#',
   'type': 'object',

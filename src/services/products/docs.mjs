@@ -1,10 +1,10 @@
-module.exports = {
+export default {
   paths: {
-    '/categories': {
+    '/products': {
       'get': {
-        tags: ['categories'],
-        'description': 'Returns all categories that match the given filter criteria. If no filters are included, defaults to returning a paginated list of all categories.',
-        'operationId': 'findCategories',
+        tags: ['products'],
+        'description': 'Returns all products that match the given filter criteria. If no filters are included, defaults to returning a paginated list of all products.',
+        'operationId': 'findProducts',
         'produces': [
           'application/json'
         ],
@@ -12,25 +12,25 @@ module.exports = {
           {
             'name': '$limit',
             'in': 'query',
-            'description': 'Limit the number of categories returned.',
+            'description': 'Limit the number of products returned.',
             'required': false,
             'type': 'integer'
           },
           {
             'name': '$skip',
             'in': 'query',
-            'description': 'Skip the specified number of categories.',
+            'description': 'Skip the specified number of products.',
             'required': false,
             'type': 'integer'
           }
         ],
         'responses': {
           '200': {
-            'description': 'Category response',
+            'description': 'Product response',
             'schema': {
               'type': 'array',
               'items': {
-                '$ref': '#/definitions/category'
+                '$ref': '#/definitions/product'
               }
             }
           },
@@ -43,20 +43,20 @@ module.exports = {
         }
       },
       'post': {
-        tags: ['categories'],
-        'description': 'Creates a new category',
-        'operationId': 'addCategory',
+        tags: ['products'],
+        'description': 'Creates a new product',
+        'operationId': 'addProduct',
         'produces': [
           'application/json'
         ],
         'parameters': [
           {
-            'name': 'category',
+            'name': 'product',
             'in': 'body',
-            'description': 'Category to add',
+            'description': 'Product to add',
             'required': true,
             'schema': {
-              '$ref': '#/definitions/category'
+              '$ref': '#/definitions/product'
             }
           }
         ],
@@ -73,11 +73,11 @@ module.exports = {
         }
       }
     },
-    '/categories/{id}': {
+    '/products/{id}': {
       'get': {
-        tags: ['categories'],
-        'description': 'Returns a categories based on category ID',
-        'operationId': 'findCategoryById',
+        tags: ['products'],
+        'description': 'Returns a product based on an ID,',
+        'operationId': 'findProductById',
         'produces': [
           'application/json'
         ],
@@ -85,7 +85,7 @@ module.exports = {
           {
             'name': 'id',
             'in': 'path',
-            'description': 'ID of category to fetch',
+            'description': 'ID of product to fetch',
             'required': true,
             'type': 'integer',
             'format': 'int64'
@@ -93,9 +93,9 @@ module.exports = {
         ],
         'responses': {
           '200': {
-            'description': 'Category response',
+            'description': 'Product response',
             'schema': {
-              '$ref': '#/definitions/category'
+              '$ref': '#/definitions/product'
             }
           },
           '400': {
@@ -107,9 +107,9 @@ module.exports = {
         }
       },
       'patch': {
-        tags: ['categories'],
-        'description': 'Updates a categories based on category ID',
-        'operationId': 'updateCategoryById',
+        tags: ['products'],
+        'description': 'Updates a product based on an ID,',
+        'operationId': 'updateProductById',
         'produces': [
           'application/json'
         ],
@@ -117,26 +117,26 @@ module.exports = {
           {
             'name': 'id',
             'in': 'path',
-            'description': 'ID of category to update',
+            'description': 'ID of product to fetch',
             'required': true,
             'type': 'integer',
             'format': 'int64'
           },
           {
-            'name': 'category',
+            'name': 'product',
             'in': 'body',
-            'description': 'Category attributes to update',
+            'description': 'Product attributes to update',
             'required': true,
             'schema': {
-              '$ref': '#/definitions/category'
+              '$ref': '#/definitions/product'
             }
           }
         ],
         'responses': {
           '200': {
-            'description': 'Category response',
+            'description': 'Product response',
             'schema': {
-              '$ref': '#/definitions/category'
+              '$ref': '#/definitions/product'
             }
           },
           '400': {
@@ -148,14 +148,14 @@ module.exports = {
         }
       },
       'delete': {
-        tags: ['categories'],
-        'description': 'Deletes a single category based on the ID supplied',
-        'operationId': 'deletecategory',
+        tags: ['products'],
+        'description': 'Deletes a single product based on the ID supplied',
+        'operationId': 'deleteProduct',
         'parameters': [
           {
             'name': 'id',
             'in': 'path',
-            'description': 'ID of category to delete',
+            'description': 'ID of product to delete',
             'required': true,
             'type': 'integer',
             'format': 'int64'
@@ -163,7 +163,7 @@ module.exports = {
         ],
         'responses': {
           '200': {
-            'description': 'Category deleted'
+            'description': 'Product deleted'
           },
           '400': {
             'description': 'Unexpected error',
@@ -176,6 +176,6 @@ module.exports = {
     }
   },
   'definitions': {
-    'category': require('./schema.js')
+    'product': require('./schema.mjs')
   }
 };

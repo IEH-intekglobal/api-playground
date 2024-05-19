@@ -1,5 +1,12 @@
-module.exports = function (sequelize, DataTypes) {
-  var product = sequelize.define('product', {
+import { Model } from "sequelize";
+
+export default function (sequelize, DataTypes) {
+  class Product extends Model {
+    static associate(models) {
+      Product.belongsToMany(models.category, { through: 'productcategory', as: 'categories' });
+    }
+  }
+  Product.init({
     name: {
       type: DataTypes.STRING
     },
@@ -31,12 +38,8 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING
     }
   }, {
-    classMethods: {
-      associate: function (models) {
-        // associations can be defined here
-        product.belongsToMany(models.category, {through: 'productcategory', as: 'categories'});
-      }
-    }
+    sequelize,
+    modelName: 'product',
   });
-  return product;
+  return Product;
 };
