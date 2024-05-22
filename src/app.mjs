@@ -17,7 +17,7 @@ app
   .configure(configuration())
   .use(compress())
   .use(cors())
-  .use(serveStatic('public', {root: 'public'}))
+  .use(serveStatic('public'))
   .use(errorHandler())
   .configure(logger)
   .use(bodyParser())

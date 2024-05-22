@@ -6,7 +6,6 @@ export default function () {
 
     const staticMiddleware = serveStatic('markdown', {
         index: 'index.md',
-        root: 'markdown',
         extensions: ['md']
     });
     
