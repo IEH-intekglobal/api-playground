@@ -1,5 +1,9 @@
-module.exports = function (sequelize, DataTypes) {
-  var service = sequelize.define('zipcode', {
+import { Model } from "sequelize";
+
+export default function (sequelize, DataTypes) {
+  class Service extends Model { }
+
+  Service.init({
     zip: {
       type: DataTypes.STRING,
       primaryKey: true
@@ -17,11 +21,8 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING
     }
   }, {
-    classMethods: {
-      associate: function (models) {
-        // associations can be defined here
-      }
-    }
+    sequelize,
+    modelName: 'zipcode',
   });
-  return service;
+  return Service;
 };

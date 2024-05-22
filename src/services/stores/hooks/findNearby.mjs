@@ -1,44 +1,42 @@
 'use strict';
-module.exports = findNearby;
-
-const {radians, degrees} = require('../../../util');
+import { Op } from 'sequelize';
+import { radians, degrees } from '../../../util/index.mjs';
 
 const earthRadius = 6371000; // m
 
 // find nearby stores in a rough "square" radius
-function findNearby (hook) {
-  let q = hook.params.query;
+export default async function findNearby({ params, app }) {
+  let q = params.query;
 
   if (!q.near) return;
 
   let miles = q.miles || 10;
   let radiusInMeters = Number(miles) * 1609;
 
-  return hook.app.db.zipcode.findById(q.near)
-    .then(zip => {
-      let lat = zip.lat;
-      let lng = zip.lng;
+  const { zipcode } = app.get('sequelizeClient').models;
 
-      let north = calcDerivedLatitude(lat, radiusInMeters, 0);
-      let east = calcDerivedPosition(lat, lng, radiusInMeters, 90);
-      let south = calcDerivedLatitude(lat, radiusInMeters, 180);
-      let west = calcDerivedPosition(lat, lng, radiusInMeters, 270);
+  const { lat, lng } = await zipcode.findById(q.near)
 
-      q.lat = {
-        $lt: north,
-        $gt: south
-      };
-      q.lng = {
-        $lt: east.lng,
-        $gt: west.lng
-      };
+  let north = calcDerivedLatitude(lat, radiusInMeters, 0);
+  let east = calcDerivedPosition(lat, lng, radiusInMeters, 90);
+  let south = calcDerivedLatitude(lat, radiusInMeters, 180);
+  let west = calcDerivedPosition(lat, lng, radiusInMeters, 270);
 
-      delete q.near;
-      delete q.miles;
-    });
+  q.lat = {
+    [Op.lt]: north,
+    [Op.gt]: south
+  };
+  q.lng = {
+    [Op.lt]: east.lng,
+    [Op.gt]: west.lng
+  };
+
+  delete q.near;
+  delete q.miles;
+
 }
 
-function calcDerivedPosition (lat, lng, range, bearing) {
+function calcDerivedPosition(lat, lng, range, bearing) {
   let latA = radians(lat);
   let lngA = radians(lng);
   let angularDistance = range / earthRadius;
@@ -62,7 +60,7 @@ function calcDerivedPosition (lat, lng, range, bearing) {
   };
 }
 
-function calcDerivedLatitude (lat, range, bearing) {
+function calcDerivedLatitude(lat, range, bearing) {
   let latA = radians(lat);
   let angularDistance = range / earthRadius;
   let trueCourse = radians(bearing);

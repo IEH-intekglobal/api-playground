@@ -1,8 +1,8 @@
-module.exports = {
+export default {
   'title': 'Service Schema',
   '$schema': 'http://json-schema.org/draft-04/schema#',
   'type': 'object',
-  'required': [ 'name' ],
+  'required': ['name'],
   'additionalProperties': false,
   'properties': {
     'name': {

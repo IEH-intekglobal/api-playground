@@ -8,17 +8,18 @@ import configuration from '@feathersjs/configuration';
 import socketio from '@feathersjs/socketio';
 
 import middleware from './middleware/index.mjs';
+import logger from './middleware/logger.mjs';
 import services from './services/index.mjs';
 
 export const app = koa(feathers().configure(configuration()));
 
 app.use(compress())
   .use(cors())
-  .use(serveStatic('public'))
+  .use(serveStatic('public', {root: 'public'}))
   .use(errorHandler())
+  .configure(logger)
   .use(bodyParser())
   .configure(rest())
   .configure(socketio())
   .configure(services)
   .configure(middleware);
-

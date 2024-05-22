@@ -30,35 +30,34 @@ function includeAssociatedModels({ params, app }) {
   const { category } = app.get('sequelizeClient').models;
   
   params.sequelize = {
-    distinct: true, // must set this in order to get correct total count
+    nest: true,
+    raw: false,
     include: [
       {
         model: category,
-        as: 'subCategories'
+        as: 'subCategories',
       },
       {
         model: category,
-        as: 'categoryPath'
+        as: 'categoryPath',
       }],
     exclude: 'subCategories'
   };
 }
 
 function filterParentsFromFind(ctx) {
-  // console.log(ctx.result.data);
-  // ctx.result.data = ctx.result.data.map(d => {
-  //   console.log(d);
-  //   // d = d.toJSON();
-  //   d.subCategories = d.subCategories.map(sub => {
-  //     delete sub.subCategories;
-  //     return sub;
-  //   });
-  //   d.categoryPath = d.categoryPath.map(sub => {
-  //     delete sub.categoryPath;
-  //     return sub;
-  //   });
-  //   return d;
-  // });
+  ctx.result.data = ctx.result.data.map(d => {
+    d = d.toJSON();
+    d.subCategories = d.subCategories.map(sub => {
+      delete sub.subCategories;
+      return sub;
+    });
+    d.categoryPath = d.categoryPath.map(sub => {
+      delete sub.categoryPath;
+      return sub;
+    });
+    return d;
+  });
 }
 
 function filterParentsFromGet(ctx) {

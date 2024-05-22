@@ -8,6 +8,3 @@ export function degrees(radians) {
     return radians * (180 / Math.PI);
 }
 
-export function capitalize(str){
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}

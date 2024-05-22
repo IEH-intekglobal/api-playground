@@ -4,8 +4,8 @@ import { MethodNotAllowed } from '@feathersjs/errors';
 
 export const allowNull = function (options) {
   // convert all strings that are "null" to null
-  return function (hook) {
-    var q = hook.params.query;
+  return function ({ params }) {
+    var q = params.query;
 
     if (!q) return;
 
@@ -33,8 +33,8 @@ export const wildcardsInLike = function (options) {
   };
 };
 
-export const errorIfReadonly = function (hook, next) {
-  if (hook.app.get('readonly')) {
+export const errorIfReadonly = function ({app}, next) {
+  if (app.get('readonly')) {
     return next(new MethodNotAllowed('This HTTP method is not allowed when application is in read-only mode.'));
   }
   return next();

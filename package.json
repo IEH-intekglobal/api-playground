@@ -17,7 +17,7 @@
   "contributors": [],
   "bugs": {},
   "engines": {
-    "node": ">= 4.4.7"
+    "node": ">=10.x"
   },
   "scripts": {
     "test": "cp ./dataset.sqlite test/testdb.sqlite && npm run mocha && semistandard",
@@ -33,6 +33,7 @@
     "@feathersjs/koa": "^5.0.25",
     "@feathersjs/socketio": "^5.0.25",
     "@koa/cors": "^5.0.0",
+    "@ladjs/koa-views": "^9.0.0",
     "ajv": "^8.13.0",
     "feathers-sequelize": "^7.0.3",
     "koa-compress": "^5.1.1",

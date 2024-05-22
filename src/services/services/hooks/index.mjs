@@ -1,10 +1,10 @@
 'use strict';
 
-const globalHooks = require('../../../hooks');
-var validateSchema = require('../../../hooks/validate-schema');
-var serviceSchema = require('../schema');
+import * as globalHooks from '../../../hooks/index.mjs';
+import validateSchema from '../../../hooks/validate-schema.mjs';
+import serviceSchema from '../schema.mjs';
 
-exports.before = {
+export const before = {
   all: [],
   find: [globalHooks.allowNull(), globalHooks.wildcardsInLike()],
   get: [],
@@ -14,7 +14,7 @@ exports.before = {
   remove: [globalHooks.errorIfReadonly]
 };
 
-exports.after = {
+export const after = {
   all: [],
   find: [],
   get: [],

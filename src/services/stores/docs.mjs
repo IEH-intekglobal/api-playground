@@ -1,4 +1,4 @@
-module.exports = {
+export default  {
   paths: {
     '/stores': {
       'get': {
@@ -176,6 +176,6 @@ module.exports = {
     }
   },
   'definitions': {
-    'store': require('./schema.js')
+    'store': require('./schema.mjs')
   }
 };

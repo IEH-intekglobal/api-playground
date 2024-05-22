@@ -1,5 +1,5 @@
 'use strict';
-
+import { Op } from 'sequelize';
 import * as globalHooks from '../../../hooks/index.mjs';
 import validateSchema from '../../../hooks/validate-schema.mjs';
 import productSchema from '../schema.mjs';
@@ -26,25 +26,27 @@ export const after = {
 
 function includeAssociatedModels({ params, app }) {
   if (params.query.$select) return; // if selecting specific columns, do not include
-
   const { category } = app.get('sequelizeClient').models;
 
   params.sequelize = {
-    distinct: true, // must set this in order to get correct total count
+    nest: true,
+    raw: false,
     include: [{
-      model: category, as: 'categories', through: { attributes: [] }
+      model: category, 
+      as: 'categories', 
+      through: { attributes: [] },
     }]
   };
 }
 
-function findCategoryById(ctx) {
+function findCategoryById({params}) {
   /*
     This makes both of these work:
     /products?category[id]=abcat0208002
     /products?category.id=abcat0208002
   */
   let catId;
-  let q = ctx.params.query;
+  let q = params.query;
   if (q['category.id']) {
     catId = q['category.id'];
     delete q['category.id'];
@@ -54,17 +56,18 @@ function findCategoryById(ctx) {
   }
 
   if (catId) {
+    const sequelize = app.get('sequelizeClient');
     q.id = {
       // a bit gnarly but works https://github.com/sequelize/sequelize/issues/1869
-      $in: ctx.app.db.Sequelize.literal(`(
-        SELECT DISTINCT productId from productcategory
-        INNER JOIN categories on categories.id = productcategory.categoryId
-        where categories.id = '${catId}')`)
+      [Op.in]: sequelize.literal(`(
+        SELECT DISTINCT productId FROM productcategory
+        INNER JOIN categories ON categories.id = productcategory.categoryId
+        WHERE categories.id = '${catId}')`)
     };
   }
 }
 
-function findbyCategoryName({ params }) {
+function findbyCategoryName({ params, app }) {
   /*
     This makes both of these work:
     /products?category[name]=Coffee%20Pods
@@ -81,12 +84,15 @@ function findbyCategoryName({ params }) {
   }
 
   if (catName) {
+    const sequelize = app.get('sequelizeClient');
     q.id = {
       // a bit gnarly but works https://github.com/sequelize/sequelize/issues/1869
-      $in: hook.app.db.Sequelize.literal(`(
+      [Op.in]: sequelize.literal(`(
         SELECT DISTINCT productId from productcategory
         INNER JOIN categories on categories.id = productcategory.categoryId
         where categories.name = '${catName}')`)
     };
   }
 }
+
+

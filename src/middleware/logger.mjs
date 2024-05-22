@@ -2,7 +2,8 @@
 
 import winston from 'winston';
 
-export default function (app) {
+export default function () {
+  const app = this;
   // Add a logger to our app object for convenience
   const logger = winston.createLogger({
     level: 'info',
@@ -15,21 +16,29 @@ export default function (app) {
   if (process.env.NODE_ENV === 'test') {
     // suppress logging when under test
     winston.remove(winston.transports.Console);
-    return (error, req, res, next) => (next(error));
   }
 
-  return function (error, req, res, next) {
-    if (error) {
-      const message = `${error.code ? `(${error.code}) ` : ''}Route: ${req.url} - ${error.message}`;
+  function statusLogger(ctx, error) {
+    if (ctx.status < 400) return;
+    const code = ctx.status || error?.code || '';
+    const errMsg = ctx.message || error?.message;
+    const msg = `${code} - Route: ${ctx.path} - ${errMsg}`;
 
-      if (error.code === 404) {
-        logger.info(message);
-      } else {
-        logger.error(message);
-        logger.info(error.stack);
-      }
+    if (!error && code === 404) {
+      logger.info(msg);
+    } else {
+      logger.error(msg);
+      error && logger.info(error.stack);
     }
+  }
 
-    next(error);
-  };
+  app.use(async function (ctx, next) {
+    try {
+      await next();
+      statusLogger(ctx, null);
+    } catch (error) {
+      statusLogger(ctx, error);
+      throw error;
+    }
+  });
 };

@@ -2,8 +2,11 @@ import { Model } from "sequelize";
 
 export default function (sequelize, DataTypes) {
   class Product extends Model {
-    static associate(models) {
-      Product.belongsToMany(models.category, { through: 'productcategory', as: 'categories' });
+    static associate({ category }) {
+      Product.belongsToMany(category, {
+        through: 'productcategory',
+        as: 'categories',
+      });
     }
   }
   Product.init({

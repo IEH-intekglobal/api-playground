@@ -1,11 +1,11 @@
 'use strict';
+import { Op } from 'sequelize';
+import * as globalHooks from '../../../hooks/index.mjs';
+import validateSchema from '../../../hooks/validate-schema.mjs';
+import storeSchema from '../schema.mjs';
+import findNearby from './findNearby.mjs';
 
-const globalHooks = require('../../../hooks');
-var validateSchema = require('../../../hooks/validate-schema');
-var storeSchema = require('../schema');
-var findNearby = require('./findNearby');
-
-exports.before = {
+export const before = {
   all: [],
   find: [findNearby, includeAssociatedModels, findServiceByName, findServiceById, globalHooks.allowNull(), globalHooks.wildcardsInLike()],
   get: [includeAssociatedModels],
@@ -15,7 +15,7 @@ exports.before = {
   remove: [globalHooks.errorIfReadonly]
 };
 
-exports.after = {
+export const after = {
   all: [],
   find: [],
   get: [],
@@ -25,25 +25,29 @@ exports.after = {
   remove: []
 };
 
-function includeAssociatedModels (hook) {
-  if (hook.params.query.$select) return; // if selecting specific columns, do not include
-  hook.params.sequelize = {
-    distinct: true, // must set this in order to get correct total count
+function includeAssociatedModels({ params, app }) {
+  if (params.query.$select) return; // if selecting specific columns, do not include
+
+  const { service } = app.get('sequelizeClient').model;
+
+  params.sequelize = {
+    nest: true,
+    raw: false,
     include: [{
-      model: hook.app.db.service,
+      model: service,
       as: 'services'
     }]
   };
 }
 
-function findServiceById (hook) {
+function findServiceById({ params }) {
   /*
     This makes both of these work:
     /products?service[id]=abcat0208002
     /products?service.id=abcat0208002
   */
   let serviceId;
-  let q = hook.params.query;
+  let q = params.query;
   if (q['service.id']) {
     serviceId = q['service.id'];
     delete q['service.id'];
@@ -53,17 +57,18 @@ function findServiceById (hook) {
   }
 
   if (serviceId) {
+    const sequelize = app.get('sequelizeClient');
     q.id = {
       // a bit gnarly but works https://github.com/sequelize/sequelize/issues/1869
-      $in: hook.app.db.Sequelize.literal(`(
-        SELECT DISTINCT storeId from storeservices
-        INNER JOIN services on services.id = storeservices.serviceId
-        where services.id = '${serviceId}')`)
+      [Op.in]: sequelize.literal(`(
+        SELECT DISTINCT storeId FROM storeservices
+        INNER JOIN services ON services.id = storeservices.serviceId
+        WHERE services.id = '${serviceId}')`)
     };
   }
 }
 
-function findServiceByName (hook) {
+function findServiceByName(hook) {
   /*
     This makes both of these work:
     /stores?service[name]=Best+Buy+Mobile
@@ -82,10 +87,10 @@ function findServiceByName (hook) {
   if (serviceName) {
     q.id = {
       // a bit gnarly but works https://github.com/sequelize/sequelize/issues/1869
-      $in: hook.app.db.Sequelize.literal(`(
-        SELECT DISTINCT storeId from storeservices
-        INNER JOIN services on services.id = storeservices.serviceId
-        where services.name = '${serviceName}')`)
+      [Op.in]: sequelize.literal(`(
+        SELECT DISTINCT storeId FROM storeservices
+        INNER JOIN services ON services.id = storeservices.serviceId
+        WHERE services.name = '${serviceName}')`)
     };
   }
 }
