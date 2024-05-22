@@ -9,7 +9,7 @@ import db from '../db/index.mjs';
 export default function () {
   const app = this;
 
-  app.configure(db);// setup app.get('sequelizeClient')
+  app.configure(db);// sets up app.get('sequelizeClient')
 
   app.configure(products);
   app.configure(stores);

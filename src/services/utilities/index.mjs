@@ -1,11 +1,15 @@
 'use strict';
-
-import HealthCheck from './healthcheck.mjs';
-import versionService from './version.mjs';
+import koaRouter from '@koa/router';
+import healthCheck from './healthcheck.mjs';
+import version from './version.mjs';
 
 export default function () {
   const app = this;
 
-  app.use('/version', versionService);
-  app.use('/healthcheck', new HealthCheck(app));
+  const router = koaRouter();
+  router
+    .get('/version', version)
+    .get('/healthcheck', healthCheck(app))
+
+  app.use(router.routes());
 };

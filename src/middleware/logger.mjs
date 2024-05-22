@@ -32,6 +32,9 @@ export default function () {
     }
   }
 
+  app.on('error', (err, ctx) => {
+    statusLogger(ctx, err);
+  });
   app.use(async function (ctx, next) {
     try {
       await next();

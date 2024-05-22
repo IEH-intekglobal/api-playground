@@ -1,30 +1,30 @@
 'use strict';
 
-var packageInfo = require('../../../package.json');
+import packageInfo from '../../../package.json' with {type: 'json' };
 
-module.exports = {
-  'swagger': '2.0',
-  'info': {
-    'version': packageInfo.version,
-    'title': 'Best Buy API Playground',
-    'description': 'A sample dataset and API for you to experiment with.',
-    'contact': {
-      'name': 'Best Buy API team',
-      'email': 'developer@bestbuy.com'
+export default {
+  swagger: '2.0',
+  info: {
+    version: packageInfo.version,
+    title: 'Best Buy API Playground',
+    description: 'A sample dataset and API for you to experiment with.',
+    contact: {
+      name: 'Best Buy API team',
+      email: 'developer@bestbuy.com'
     }
   },
-  'host': 'localhost:3030',
-  'basePath': '/',
-  'schemes': [
+  host: 'localhost:3030', //TODO: get host and port from ENV variables
+  basePath: '/',
+  schemes: [
     'http'
   ],
-  'consumes': [
+  consumes: [
     'application/json'
   ],
-  'produces': [
+  produces: [
     'application/json'
   ],
-  'tags': [
+  tags: [
     {
       name: 'products',
       description: 'Find, create, update and remove products'
@@ -46,10 +46,9 @@ module.exports = {
       description: 'API application functionality for monitoring version and health information'
     }
   ],
-  'paths': {
-  },
-  'definitions': {
-    'errorModel': {
+  paths: {},
+  definitions: {
+    errorModel: {
       type: 'object',
       properties: {
         name: {

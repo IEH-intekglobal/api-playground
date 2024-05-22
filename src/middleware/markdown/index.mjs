@@ -9,14 +9,20 @@ export default function () {
         root: 'markdown',
         extensions: ['md']
     });
-
+    
     app.use(async (ctx, next) => {
         await staticMiddleware(ctx, next);
 
         if (ctx.body) {
             const fstream = ctx.body;
-            ctx.type='html';
-            ctx.body = renderMD`
+            ctx.type = 'html';
+            ctx.body = markdownPage(fstream);
+        }
+    });
+}
+
+function markdownPage(content) {
+    return renderMD`
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,12 +40,10 @@ export default function () {
     <div class="container">
         <div class="row">
             <div class="twelve column">     
-                ${fstream}
+                ${content}
             </div>
         </div>
     </div>
 </body>
 </html>`;
-        }
-    });
 }

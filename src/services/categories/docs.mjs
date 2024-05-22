@@ -1,3 +1,5 @@
+import schema from './schema.mjs';
+
 export default {
   paths: {
     '/categories': {
@@ -176,6 +178,6 @@ export default {
     }
   },
   'definitions': {
-    'category': require('./schema.mjs')
+    'category': schema
   }
 };

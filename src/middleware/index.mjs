@@ -1,6 +1,6 @@
 'use strict';
 
-// const swagger = require('./swagger');
+import swagger from './swagger/index.mjs';
 import markdownPages from './markdown/index.mjs';
 
 export default function () {
@@ -9,6 +9,6 @@ export default function () {
   // handling middleware should go last.
   const app = this;
 
-  // app.configure(swagger);
-    app.configure(markdownPages);
+  app.configure(swagger);
+  app.configure(markdownPages);
 };
