@@ -16,7 +16,7 @@ The Best Buy API Playground is a dataset of products, categories, and stores exp
 ## Exploring the API
 
 ### Swagger
-* Swagger config URL: [/swagger.json](/swagger.json)
+* Swagger config URL: [/docs/swagger.json](/docs/swagger.json)
 * Explore the API via the [Swagger UI](/docs)
 
 ### Postman Collection
@@ -26,15 +26,15 @@ The API can also be explored via a [Postman Collection](https://www.getpostman.c
 ### Querying the API
 * Check out our [Example Queries](queries) to get an idea of whats possible.
 * All querystrings on GET requests are parsed using [qs](http://npmjs.com/packages/qs) to turn them into JSON.
-* Nearly all the [Sequelize Operators](http://docs.sequelizejs.com/en/latest/docs/querying/#operators) are supported.
+* Nearly all the [Sequelize Operators](https://sequelize.org/docs/v6/core-concepts/model-querying-basics/#operators) are supported.
   * Use `*` instead of `%` for the `$like` Operators
   * Use `$select` instead of `$attributes` for selecting specific fields
-  * Use Feathers [Pagination and sorting](https://docs.feathersjs.com/databases/pagination.html) fields (`$limit, $skip, $sort`)
+  * Use Feathers [Pagination and sorting](https://feathersjs.com/api/databases/common.html#params-paginate) fields (`$limit, $skip, $sort`)
 
 ### Technologies
 
 * [Feathers](http://feathersjs.com/)
-* [Sequelize](http://docs.sequelizejs.com/en/v3/)
+* [Sequelize](https://sequelize.org/docs/v6/)
 
 ### Attribution
 * Zipcode data provided by [geonames.org](http://www.geonames.org/)

@@ -60,7 +60,6 @@
       "mocha"
     ],
     "ignore": [
-      "src/middleware/swagger/swagger-ui",
       "public/highlight.pack.js"
     ]
   }
