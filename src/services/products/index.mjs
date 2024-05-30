@@ -27,6 +27,6 @@ export default async function () {
   // Set up our before & after hooks
   productsService.hooks({
     before,
-    after
+    after,
   });
 };

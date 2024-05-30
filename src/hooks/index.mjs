@@ -33,7 +33,7 @@ export const wildcardsInLike = function (options) {
   };
 };
 
-export const errorIfReadonly = function ({app}, next) {
+export const errorIfReadonly = function ({ app }, next) {
   if (app.get('readonly')) {
     return next(new MethodNotAllowed('This HTTP method is not allowed when application is in read-only mode.'));
   }

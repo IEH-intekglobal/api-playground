@@ -23,23 +23,22 @@ export const after = {
   patch: [],
   remove: []
 };
-
+// http://localhost:3030/products?name[$like]=*iPad*
 function includeAssociatedModels({ params, app }) {
   if (params.query.$select) return; // if selecting specific columns, do not include
   const { category } = app.get('sequelizeClient').models;
-
   params.sequelize = {
     nest: true,
     raw: false,
     include: [{
-      model: category, 
-      as: 'categories', 
+      model: category,
+      as: 'categories',
       through: { attributes: [] },
     }]
   };
 }
 
-function findCategoryById({params}) {
+function findCategoryById({ params, app }) {
   /*
     This makes both of these work:
     /products?category[id]=abcat0208002

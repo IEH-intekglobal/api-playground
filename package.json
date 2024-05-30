@@ -3,7 +3,7 @@
   "description": "Best Buy API Playground",
   "version": "2.0.0",
   "homepage": "",
-  "main": "src/",
+  "main": "src/index.mjs",
   "keywords": [
     "feathersjs",
     "API",
@@ -23,7 +23,7 @@
     "test": "cp ./dataset.sqlite test/testdb.sqlite && npm run mocha && semistandard",
     "start": "node --disable-warning=ExperimentalWarning src/index.mjs",
     "mocha": "cross-env NODE_ENV=test nyc --cache mocha test/ --recursive --timeout=5000 --check-leaks",
-    "dev": "nodemon",
+    "dev": "nodemon --disable-warning=ExperimentalWarning",
     "coverage": "nyc report --reporter=text-lcov"
   },
   "dependencies": {
@@ -61,6 +61,18 @@
     ],
     "ignore": [
       "public/highlight.pack.js"
+    ]
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "node_modules/**/node_modules",
+      "/test/**",
+      "/markdown/**",
+      "/public/**"
+    ],
+    "delay": 2000,
+    "watch": [
+      "src"
     ]
   }
 }

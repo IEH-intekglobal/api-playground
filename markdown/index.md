@@ -17,7 +17,7 @@ The Best Buy API Playground is a dataset of products, categories, and stores exp
 
 ### Swagger
 * Swagger config URL: [/docs/swagger.json](/docs/swagger.json)
-* Explore the API via the [Swagger UI](/docs)
+* Explore the API via the [Swagger UI](/docs/)
 
 ### Postman Collection
 The API can also be explored via a [Postman Collection](https://www.getpostman.com/docs/collections).
